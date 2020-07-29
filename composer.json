@@ -1,0 +1,16 @@
+{
+  "name": "nmenescardi/wp-taxonomy-main-term",
+  "authors": [
+    {
+      "name": "Nicolas Menescardi"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "WP_TMT\\": ""
+    }
+  },
+  "require": {
+    "pimple/pimple": "~3.0"
+  }
+}
