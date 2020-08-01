@@ -1,0 +1,75 @@
+<?php
+
+namespace WP_TMT\Core\MainTerms;
+
+class MainTerm
+{
+
+  protected $taxonomyName;
+  protected $postID;
+  protected $mainTerm;
+  protected $baseKey;
+
+  public function __construct($taxonomyName, $postID)
+  {
+    $this->taxonomyName = $taxonomyName;
+    $this->postID = $postID;
+
+    $this->baseKey = 'wp_tmt_main_' . $this->taxonomyName;
+  }
+
+  public function mainTerm()
+  {
+    $this->mainTerm = \get_post_meta(
+      $this->post_ID,
+      $this->metaKey(),
+      true
+    );
+
+    return
+      $this->isMainTermValid()
+      ? (int) $this->mainTerm
+      : false;
+  }
+
+  protected function isMainTermValid()
+  {
+    return in_array(
+      (int) $this->mainTerm,
+      \wp_list_pluck($this->terms(), 'term_id'),
+      true
+    );
+  }
+
+  protected function terms()
+  {
+    return
+      is_array($terms = \get_the_terms($this->postID, $this->taxonomyName))
+      ? $terms
+      : [];
+  }
+
+  public function update($newMainTerm)
+  {
+    \update_post_meta(
+      $this->post_ID,
+      $this->metaKey(),
+      $newMainTerm
+    );
+  }
+
+  protected function metaKey()
+  {
+    return $this->baseKey . '_meta';
+  }
+
+  public function queryVarKey()
+  {
+    return $this->baseKey . '_term';
+  }
+
+  public function nonceKey()
+  {
+    return $this->baseKey . '_nonce';
+  }
+}
