@@ -18,10 +18,10 @@ class MainTerm
     $this->baseKey = 'wp_tmt_main_' . $this->taxonomyName;
   }
 
-  public function mainTerm()
+  public function getMainTerm()
   {
     $this->mainTerm = \get_post_meta(
-      $this->post_ID,
+      $this->postID,
       $this->metaKey(),
       true
     );
@@ -49,10 +49,10 @@ class MainTerm
       : [];
   }
 
-  public function update($newMainTerm)
+  public function save($newMainTerm)
   {
-    \update_post_meta(
-      $this->post_ID,
+    return \update_post_meta(
+      $this->postID,
       $this->metaKey(),
       $newMainTerm
     );
