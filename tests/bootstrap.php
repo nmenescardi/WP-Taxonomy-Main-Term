@@ -24,8 +24,8 @@ require_once $_tests_dir . '/includes/functions.php';
  */
 function _manually_load_plugin()
 {
-	require_once './../vendor/autoload.php';
-	require_once './../Base.php';
+	require_once dirname(dirname(__FILE__)) . '/vendor/autoload.php';
+	require_once dirname(dirname(__FILE__)) . '/Base.php';
 
 	$base = new WP_TMT\Base();
 	$base->load();
