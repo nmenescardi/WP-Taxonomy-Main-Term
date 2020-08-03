@@ -41,10 +41,10 @@ class Admin
 
   protected function isValidNonce($nonceKey)
   {
-    return (\check_admin_referer(
-      'save_main_term',
-      $nonceKey
-    ) !== null);
+    if (isset($_REQUEST[$nonceKey]))
+      return is_numeric(wp_verify_nonce($_REQUEST[$nonceKey], 'save_main_term'));
+
+    return false;
   }
 
   public function getTaxonomies($postType = null)
