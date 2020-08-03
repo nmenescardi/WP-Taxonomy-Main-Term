@@ -32,10 +32,7 @@ class Request
 
   public static function mainTermFromPOST($key)
   {
-    return filter_input(
-      INPUT_POST,
-      $key,
-      FILTER_SANITIZE_NUMBER_INT
-    );
+    if (isset($_POST[$key]) && is_numeric($_POST[$key]))
+      return intval($_POST[$key]);
   }
 }
