@@ -7,7 +7,8 @@
   ],
   "autoload": {
     "files": [
-      "Core/Helpers/functions.php"
+      "Core/Helpers/functions.php",
+      "Core/Helpers/public-functions.php"
     ],
     "psr-4": {
       "WP_TMT\\": ""
