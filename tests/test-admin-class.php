@@ -46,4 +46,22 @@ class AdminClassTest extends WP_UnitTestCase
     // The main term has been saved properly
     $this->assertEquals($mainTerm->getMainTerm(), $this->terms[1]);
   }
+
+  public function test_not_saving_the_main_term_with_non_valid_term()
+  {
+    // Let's hardcode main term request
+    $mainTerm = new MainTerm($this->taxonomyName, $this->postID);
+
+    // Non valid term because it is not associated with the post
+    $_POST[$mainTerm->queryVarKey()] = $this->terms[2];
+
+    // Fake nonce
+    $_REQUEST[$mainTerm->nonceKey()] = $_POST[$mainTerm->nonceKey()] = wp_create_nonce('save_main_term');
+
+    // Perform saving main term
+    $this->admin->saveMainTerms($this->postID);
+
+    $this->assertFalse($mainTerm->getMainTerm());
+    $this->assertNotEquals($mainTerm->getMainTerm(), $this->terms[2]);
+  }
 }
