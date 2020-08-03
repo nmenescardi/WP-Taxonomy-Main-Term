@@ -18,19 +18,29 @@ class PublicFunctionsTest extends WP_UnitTestCase
       'post_type' => 'post',
       'post_category' => [$this->term->term_id]
     ]);
+
+    // Save main term
+    $mainTermModel = new MainTerm($this->taxonomyName, $this->postID);
+    $mainTermModel->save($this->term->term_id);
   }
 
   public function test__wp_tmt_get_main_term_id__function()
   {
     $this->assertTrue(function_exists('wp_tmt_get_main_term_id'));
 
-    // Save main term
-    $mainTermModel = new MainTerm($this->taxonomyName, $this->postID);
-    $mainTermModel->save($this->term->term_id);
-
     $this->assertEquals(
       wp_tmt_get_main_term_id($this->taxonomyName, $this->postID),
       $this->term->term_id
+    );
+  }
+
+  public function test__wp_tmt_get_main_term_name__function()
+  {
+    $this->assertTrue(function_exists('wp_tmt_get_main_term_name'));
+
+    $this->assertEquals(
+      wp_tmt_get_main_term_name($this->taxonomyName, $this->postID),
+      $this->term->name
     );
   }
 }
