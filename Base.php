@@ -30,12 +30,15 @@ class Base
       'base_script_handler' => 'base-general-scripts',
       'base_script_url'     => trailingslashit(plugin_dir_url(__FILE__)) . 'assets/inc/js/',
       'base_acf_json_path'  => plugin_dir_path(__FILE__) . 'acf',
+      'base_templates_path' => trailingslashit(plugin_dir_path(__FILE__)) . 'templates/',
     ]);
   }
 
   public function load()
   {
     $this->container->registerServices([
+      \WP_TMT\Core\Services\MainTermService::class,
+      \WP_TMT\Core\Services\MetaBoxService::class,
     ]);
   }
 }
