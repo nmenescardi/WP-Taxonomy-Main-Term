@@ -10,6 +10,9 @@ class AdminClassTest extends WP_UnitTestCase
   {
     parent::setUp();
 
+    $this->subscriberUserID = $this->factory->user->create(array('role' => 'subscriber'));
+    $this->editorUserID = $this->factory->user->create(array('role' => 'editor'));
+
     $this->taxonomyName = 'category';
     $this->terms = $this->factory->term->create_many(3, array(
       'taxonomy' => $this->taxonomyName
@@ -23,45 +26,41 @@ class AdminClassTest extends WP_UnitTestCase
       ]
     ]);
 
+    //Editor by default
+    wp_set_current_user($this->editorUserID);
     $this->admin = new Admin;
+
+    // Let's hardcode main term request
+    $this->mainTerm = new MainTerm($this->taxonomyName, $this->postID);
+
+    // Fake nonce
+    $_REQUEST[$this->mainTerm->nonceKey()] = $_POST[$this->mainTerm->nonceKey()] = wp_create_nonce('save_main_term');
   }
 
   public function test_saving_OK_post_with_main_term()
   {
-    // Let's hardcode main term request
-    $mainTerm = new MainTerm($this->taxonomyName, $this->postID);
-
     // Fake main term
-    $_POST[$mainTerm->queryVarKey()] = $this->terms[1];
-
-    // Fake nonce
-    $_REQUEST[$mainTerm->nonceKey()] = $_POST[$mainTerm->nonceKey()] = wp_create_nonce('save_main_term');
+    $_POST[$this->mainTerm->queryVarKey()] = $this->terms[1];
 
     // Not equals before saving
-    $this->assertNotEquals($mainTerm->getMainTerm(), $this->terms[1]);
+    $this->assertNotEquals($this->mainTerm->getMainTerm(), $this->terms[1]);
 
     // Perform saving main term
     $this->admin->saveMainTerms($this->postID);
 
     // The main term has been saved properly
-    $this->assertEquals($mainTerm->getMainTerm(), $this->terms[1]);
+    $this->assertEquals($this->mainTerm->getMainTerm(), $this->terms[1]);
   }
 
   public function test_not_saving_the_main_term_with_non_valid_term()
   {
-    // Let's hardcode main term request
-    $mainTerm = new MainTerm($this->taxonomyName, $this->postID);
-
     // Non valid term because it is not associated with the post
-    $_POST[$mainTerm->queryVarKey()] = $this->terms[2];
-
-    // Fake nonce
-    $_REQUEST[$mainTerm->nonceKey()] = $_POST[$mainTerm->nonceKey()] = wp_create_nonce('save_main_term');
+    $_POST[$this->mainTerm->queryVarKey()] = $this->terms[2];
 
     // Perform saving main term
     $this->admin->saveMainTerms($this->postID);
 
-    $this->assertFalse($mainTerm->getMainTerm());
-    $this->assertNotEquals($mainTerm->getMainTerm(), $this->terms[2]);
+    $this->assertFalse($this->mainTerm->getMainTerm());
+    $this->assertNotEquals($this->mainTerm->getMainTerm(), $this->terms[2]);
   }
 }
