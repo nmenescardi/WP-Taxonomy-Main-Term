@@ -2,18 +2,18 @@
 <?php wp_nonce_field($nonceAction, $nonceName); ?>
     
 <select 
-  name=<?= $selectID ?> 
-  id=<?= $selectName ?>
+  name=<?= esc_attr($selectID) ?> 
+  id=<?= esc_attr($selectName) ?>
 >
   <option value="-1" >* Select a Term</option>
 
   <?php foreach ($terms as $term) : ?>
 
     <option 
-      value=<?= $term->term_id ?>
+      value=<?= esc_attr($term->term_id) ?>
       <?= selected($mainTerm, $term->term_id, false) ?>
     >
-      <?= $term->name ?>
+      <?= esc_attr($term->name) ?>
     </option>
 
   <?php endforeach; ?>
