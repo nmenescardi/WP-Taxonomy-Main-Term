@@ -63,4 +63,18 @@ class AdminClassTest extends WP_UnitTestCase
     $this->assertFalse($this->mainTerm->getMainTerm());
     $this->assertNotEquals($this->mainTerm->getMainTerm(), $this->terms[2]);
   }
+
+  public function test_subscriber_cannot_save_a_main_term()
+  {
+    // Test as Subscriber
+    wp_set_current_user($this->subscriberUserID);
+
+    // Fake main term
+    $_POST[$this->mainTerm->queryVarKey()] = $this->terms[1];
+
+    // This should not save the Main Term
+    $this->admin->saveMainTerms($this->postID);
+
+    $this->assertNotEquals($this->mainTerm->getMainTerm(), $this->terms[1]);
+  }
 }

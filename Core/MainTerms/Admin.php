@@ -16,6 +16,8 @@ class Admin
 
   public function saveMainTerms($postID)
   {
+    if (!current_user_can('edit_post', $postID)) return;
+
     $this->postID = $postID;
 
     foreach ($this->getTaxonomies() as $taxonomy) {
