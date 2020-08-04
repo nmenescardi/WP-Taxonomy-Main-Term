@@ -16,9 +16,9 @@ class Admin
 
   public function saveMainTerms($postID)
   {
-    if (!current_user_can('edit_post', $postID)) return;
-
     $this->postID = $postID;
+
+    if (!$this->shouldSavePost()) return;
 
     foreach ($this->getTaxonomies() as $taxonomy) {
       $this->saveMainTerm($taxonomy);
@@ -57,5 +57,15 @@ class Admin
     return array_filter($allTaxonomies, function ($taxonomy) {
       return (bool) $taxonomy->hierarchical;
     });
+  }
+
+  protected function shouldSavePost()
+  {
+    if (
+      !current_user_can('edit_post', $this->postID)
+      || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+    ) return false;
+
+    return true;
   }
 }
