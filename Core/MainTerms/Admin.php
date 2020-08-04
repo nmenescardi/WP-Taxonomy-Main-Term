@@ -35,18 +35,10 @@ class Admin
 
     if (
       $newMainTermID &&
-      $this->isValidNonce($mainTerm->nonceKey())
+      Request::isValidNonce($mainTerm->nonceKey(), 'save_main_term')
     ) {
       $mainTerm->save($newMainTermID);
     }
-  }
-
-  protected function isValidNonce($nonceKey)
-  {
-    if (isset($_REQUEST[$nonceKey]))
-      return is_numeric(wp_verify_nonce($_REQUEST[$nonceKey], 'save_main_term'));
-
-    return false;
   }
 
   public function getTaxonomies($postType = null)

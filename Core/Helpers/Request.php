@@ -35,4 +35,12 @@ class Request
     if (isset($_POST[$key]) && is_numeric($_POST[$key]))
       return intval($_POST[$key]);
   }
+
+  public static function isValidNonce($nonceKey, $nonceAction)
+  {
+    if (isset($_REQUEST[$nonceKey]))
+      return is_numeric(wp_verify_nonce($_REQUEST[$nonceKey], $nonceAction));
+
+    return false;
+  }
 }
