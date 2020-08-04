@@ -4,6 +4,9 @@ namespace WP_TMT\Core\MainTerms;
 
 use WP_TMT\Core\Helpers\Request;
 
+/**
+ * Class to save all the main terms for the current post being saved.
+ */
 class Admin
 {
 

@@ -4,6 +4,9 @@ namespace WP_TMT\Core\Services;
 
 use WP_TMT\Core\MainTerms\MetaBox;
 
+/**
+ * Init MetaBox hooks.
+ */
 class MetaBoxService implements \Pimple\ServiceProviderInterface
 {
 

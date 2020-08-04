@@ -4,6 +4,9 @@ namespace WP_TMT;
 
 use WP_TMT\Core\DependencyInjection\Container;
 
+/**
+ * Main class to init the App.
+ */
 class Base
 {
   const VERSION = '0.0.1';

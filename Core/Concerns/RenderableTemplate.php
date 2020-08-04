@@ -2,6 +2,9 @@
 
 namespace WP_TMT\Core\Concerns;
 
+/**
+ * Shares a way to render PHP templates passing variables from a View_Model if it's present.
+ */
 trait RenderableTemplate
 {
 

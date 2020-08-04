@@ -2,6 +2,9 @@
 
 namespace WP_TMT\Core\Helpers;
 
+/**
+ * Helper class with common functionality to handle Request data. 
+ */
 class Request
 {
 

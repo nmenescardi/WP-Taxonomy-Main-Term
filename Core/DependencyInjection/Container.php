@@ -5,18 +5,14 @@ namespace WP_TMT\Core\DependencyInjection;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container as BaseContainer;
 
+/**
+ * Container class on top of Pimple to handle application dependencies.
+ */
 class Container extends BaseContainer
 {
 
-  /**
-   * @var Container
-   */
   protected static $instance = null;
-  
 
-  /**
-   * @return Container|null
-   */
   public static function getInstance(array $values = [])
   {
     if (static::$instance === null)

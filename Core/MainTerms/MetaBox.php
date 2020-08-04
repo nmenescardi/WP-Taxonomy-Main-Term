@@ -5,6 +5,9 @@ namespace WP_TMT\Core\MainTerms;
 use WP_TMT\Core\Concerns\RenderableTemplate;
 use function WP_TMT\Core\Helpers\app;
 
+/**
+ * Class to handle WP MetaBoxes. It includes a single Meta Box for each hierarchical taxonomy for the current post.
+ */
 class MetaBox
 {
   use RenderableTemplate;

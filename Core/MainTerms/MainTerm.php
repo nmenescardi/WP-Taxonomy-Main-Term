@@ -2,6 +2,9 @@
 
 namespace WP_TMT\Core\MainTerms;
 
+/**
+ * Model class to handle DB operations for a single Main Term.
+ */
 class MainTerm
 {
 

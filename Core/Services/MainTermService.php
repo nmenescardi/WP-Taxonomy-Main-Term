@@ -4,6 +4,9 @@ namespace WP_TMT\Core\Services;
 
 use WP_TMT\Core\MainTerms\Admin;
 
+/**
+ * Init Admin hooks and add a single instance into the container.
+ */
 class MainTermService implements \Pimple\ServiceProviderInterface
 {
 
