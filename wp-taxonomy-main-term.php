@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP Taxonomy Main Term
-Description: Select a primary (main) term for every post taxonomy.
+Description: Allows to select a primary (main) term for taxonomies related with posts (and CPTs).
 Author: Nicolas Menescardi
 Version: 0.0.1
 Text Domain: wp-taxonomy-main-term
