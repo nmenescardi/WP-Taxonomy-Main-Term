@@ -77,4 +77,17 @@ class AdminClassTest extends WP_UnitTestCase
 
     $this->assertNotEquals($this->mainTerm->getMainTerm(), $this->terms[1]);
   }
+
+  public function test_not_saving_a_main_term_when_autosave()
+  {
+    define('DOING_AUTOSAVE', true);
+
+    // Fake main term
+    $_POST[$this->mainTerm->queryVarKey()] = $this->terms[1];
+
+    // This should not save the Main Term
+    $this->admin->saveMainTerms($this->postID);
+
+    $this->assertNotEquals($this->mainTerm->getMainTerm(), $this->terms[1]);
+  }
 }
