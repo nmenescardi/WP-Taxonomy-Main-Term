@@ -4,6 +4,41 @@
  * Public functions available to be used by other plugins or a theme.
  */
 
+if (!function_exists('wp_tmt_get_posts_for_main_term')) {
+  /**
+   * Retrieves posts that have set a given term as primary.
+   * 
+   * @param int|WP_Term| $mainTerm 
+   * @param array $args 
+   */
+  function wp_tmt_get_posts_for_main_term($mainTerm, $postType = 'post', $args = [])
+  {
+    if (is_numeric($mainTerm) && $mainTerm > 0)
+      $mainTerm = get_term($mainTerm);
+
+    if (!$mainTerm instanceof WP_Term) return [];
+
+    $taxonomyKeys = new \WP_TMT\Core\Helpers\TaxonomyKeys($mainTerm->taxonomy);
+
+    $args = wp_parse_args(
+      $args,
+      [
+        'posts_per_page'          => 200,
+        'post_type'               => $postType,
+        'no_found_rows'           => true, // No pagination by default 
+        'update_post_meta_cache'  => false,
+        'update_post_term_cache'  => false,
+        'meta_key'                => $taxonomyKeys->metaKey(),
+        'meta_value'              => $mainTerm->term_id,
+      ]
+    );
+
+    $query = new WP_Query($args);
+
+    return $query->posts;
+  }
+}
+
 if (!function_exists('wp_tmt_get_main_term_id')) {
   /**
    * Retrieves the ID of the main term saved for a given post
