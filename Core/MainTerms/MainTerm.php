@@ -2,6 +2,8 @@
 
 namespace WP_TMT\Core\MainTerms;
 
+use WP_TMT\Core\Helpers\TaxonomyKeys;
+
 /**
  * Model class to handle DB operations for a single Main Term.
  */
@@ -11,21 +13,21 @@ class MainTerm
   protected $taxonomyName;
   protected $postID;
   protected $mainTerm;
-  protected $baseKey;
+  protected $taxonomyKeys;
 
-  public function __construct($taxonomyName, $postID)
+  public function __construct($taxonomyName, $postID, $taxonomyKeys = null)
   {
     $this->taxonomyName = $taxonomyName;
     $this->postID = $postID;
 
-    $this->baseKey = 'wp_tmt_main_' . $this->taxonomyName;
+    $this->taxonomyKeys = $taxonomyKeys ?: new TaxonomyKeys($this->taxonomyName);
   }
 
   public function getMainTerm()
   {
     $this->mainTerm = \get_post_meta(
       $this->postID,
-      $this->metaKey(),
+      $this->taxonomyKeys->metaKey(),
       true
     );
 
@@ -56,23 +58,18 @@ class MainTerm
   {
     return \update_post_meta(
       $this->postID,
-      $this->metaKey(),
+      $this->taxonomyKeys->metaKey(),
       $newMainTerm
     );
   }
 
-  protected function metaKey()
-  {
-    return $this->baseKey . '_meta';
-  }
-
   public function queryVarKey()
   {
-    return $this->baseKey . '_term';
+    return $this->taxonomyKeys->queryVarKey();
   }
 
   public function nonceKey()
   {
-    return $this->baseKey . '_nonce';
+    return $this->taxonomyKeys->nonceKey();
   }
 }
