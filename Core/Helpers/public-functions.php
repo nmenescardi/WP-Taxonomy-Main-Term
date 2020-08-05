@@ -9,6 +9,7 @@ if (!function_exists('wp_tmt_get_posts_for_main_term')) {
    * Retrieves posts that have set a given term as primary.
    * 
    * @param int|WP_Term| $mainTerm 
+   * @param string $postType 
    * @param array $args 
    */
   function wp_tmt_get_posts_for_main_term($mainTerm, $postType = 'post', $args = [])
